@@ -1,0 +1,60 @@
+# Cypress Test Automation Setup
+
+## Pré-requisitos
+
+- Certifique-se de que o [Node.js](https://nodejs.org/) e o npm estão instalados.
+
+## Instalação
+
+1. **Inicialize o npm** (caso ainda não tenha feito):
+   ```bash
+   npm init -y
+   ```
+
+2. **Instale as dependências**:
+   ```bash
+   npm install cypress cypress-plugin-api cypress-mailosaur faker-br cypress-mochawesome-reporter --save-dev
+   ```
+
+## Configuração
+
+### `cypress-mochawesome-reporter`
+
+Adicione ao `cypress.config.js`:
+
+```javascript
+const { defineConfig } = require('cypress');
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      require('cypress-mochawesome-reporter/plugin')(on);
+    },
+  },
+  reporter: 'cypress-mochawesome-reporter',
+  reporterOptions: {
+    reportDir: 'cypress/reports',
+    overwrite: false,
+    html: true,
+    json: true,
+  },
+});
+```
+
+### `cypress-plugin-api`
+
+No arquivo `cypress/support/e2e.js`:
+```javascript
+import './commands'
+import 'cypress-plugin-api';
+import "cypress-mailosaur";
+import 'cypress-mochawesome-reporter/register';
+```
+
+## Rodando o Cypress
+
+- **Interface gráfica**: `npx cypress open`
+- **Modo headless**: `npx cypress run`
+```
+
+Isso cobre os passos necessários para instalar e configurar o Cypress e seus plugins.
